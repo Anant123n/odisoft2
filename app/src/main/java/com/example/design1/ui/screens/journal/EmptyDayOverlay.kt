@@ -1,5 +1,11 @@
 package com.example.design1.ui.screens.journal
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +25,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,108 +50,132 @@ import com.example.design1.ui.screens.journal.components.SheetChevronButton
 
 @Composable
 internal fun EmptyDayOverlay(onClose: () -> Unit) {
+    var visible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        visible = true
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xCC000000))
-            .clickable { onClose() }
+            .clickable {
+                visible = false
+                onClose()
+            }
     ) {
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .fillMaxHeight(0.65f)
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .background(Color(0xFF221D1B))
-                .clickable(enabled = false) {}
+        AnimatedVisibility(
+            visible = visible,
+            enter = slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = tween(durationMillis = 300)
+            ) + fadeIn(),
+            exit = slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = tween(durationMillis = 250)
+            ) + fadeOut(),
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, bottom = 12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(width = 40.dp, height = 4.dp)
-                            .clip(RoundedCornerShape(40.dp))
-                            .background(Color(0xFFF2EBE9))
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        OverlayDateHeader(showMoodIcon = false)
-                        SheetChevronButton(
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(end = 16.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.65f)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                    .background(Color(0xFF221D1B))
+                    .clickable(enabled = false) {}
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                            .padding(top = 4.dp, bottom = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        EmptyActionRow(
-                            title = "Analyze a dream",
-                            subtitle = "Describe your dream and receive insights."
+                        Box(
+                            modifier = Modifier
+                                .size(width = 40.dp, height = 4.dp)
+                                .clip(RoundedCornerShape(40.dp))
+                                .background(Color(0xFFF2EBE9))
                         )
-                        EmptyActionRow(
-                            title = "Add Journal entry",
-                            subtitle = "Journal your day"
-                        )
-                        EmptyActionRow(
-                            title = "Start a Session",
-                            subtitle = "Talk to AI Therapist"
-                        )
-                        EmptyActionRow(
-                            title = "Start Meditating",
-                            subtitle = "Explore the depths of your inner self"
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFF292423))
-                        .padding(horizontal = 16.dp)
-                        .navigationBarsPadding(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(100.dp))
-                            .background(Color(0xFFF2EBE9))
-                            .clickable { onClose() }
-                            .height(46.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            "Close",
-                            color = Color(0xFF373967),
-                            style = bigSubtitleLeftStyle().copy(
-                                fontSize = 17.sp,
-                                lineHeight = 22.sp,
-                                textAlign = TextAlign.Center
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            OverlayDateHeader(showMoodIcon = false)
+                            SheetChevronButton(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(end = 16.dp)
                             )
-                        )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            EmptyActionRow(
+                                title = "Analyze a dream",
+                                subtitle = "Describe your dream and receive insights."
+                            )
+                            EmptyActionRow(
+                                title = "Add Journal entry",
+                                subtitle = "Journal your day"
+                            )
+                            EmptyActionRow(
+                                title = "Start a Session",
+                                subtitle = "Talk to AI Therapist"
+                            )
+                            EmptyActionRow(
+                                title = "Start Meditating",
+                                subtitle = "Explore the depths of your inner self"
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.home_indicator),
-                        contentDescription = null,
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(21.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                            .background(Color(0xFF292423))
+                            .padding(horizontal = 16.dp)
+                            .navigationBarsPadding(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(100.dp))
+                                .background(Color(0xFFF2EBE9))
+                                .clickable {
+                                    visible = false
+                                    onClose()
+                                }
+                                .height(46.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "Close",
+                                color = Color(0xFF373967),
+                                style = bigSubtitleLeftStyle().copy(
+                                    fontSize = 17.sp,
+                                    lineHeight = 22.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.home_indicator),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(21.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
