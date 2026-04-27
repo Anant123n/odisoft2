@@ -38,7 +38,7 @@ import com.example.design1.ui.smallTitleStyle
 @Composable
 internal fun MainCardSection(
     weekScroll: ScrollState,
-    onDateClick: () -> Unit
+    onDateClick: (WeekDayUi) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -157,7 +157,7 @@ internal fun MainCardSection(
                 WeekDayUi("Sat", "20", isDisabled = true),
                 WeekDayUi("Sun", "21", isDisabled = true)
             )
-            days.forEach { day -> WeekDayCell(day = day, onClick = onDateClick) }
+            days.forEach { day -> WeekDayCell(day = day, onClick = { onDateClick(day) }) }
         }
     }
 }

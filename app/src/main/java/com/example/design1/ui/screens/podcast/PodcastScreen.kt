@@ -21,9 +21,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.design1.R
+import com.example.design1.ui.EmptyDayOverlay
 import com.example.design1.ui.JournalDayOverlay
 import com.example.design1.ui.screens.podcast.cards.ArcDeepDiveSection
 import com.example.design1.ui.screens.podcast.cards.MainCardSection
+import com.example.design1.ui.screens.podcast.cards.WeekDayUi
 import com.example.design1.ui.screens.podcast.header.HeaderSection
 import com.example.design1.ui.screens.podcast.header.HeroSection
 import com.example.design1.ui.screens.podcast.history.HistorySection
@@ -32,7 +34,7 @@ import com.example.design1.ui.screens.podcast.history.HistorySection
 internal fun PodcastScreen() {
     val mainScroll = rememberScrollState()
     val weekScroll = rememberScrollState()
-    var showOverlay by remember { mutableStateOf(false) }
+    var activeSheet by remember { mutableStateOf<OverlaySheet?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -44,7 +46,12 @@ internal fun PodcastScreen() {
             HeaderSection()
             HeroSection()
             Spacer(modifier = Modifier.height(16.dp))
-            MainCardSection(weekScroll = weekScroll, onDateClick = { showOverlay = true })
+            MainCardSection(
+                weekScroll = weekScroll,
+                onDateClick = { day ->
+                    activeSheet = if (day.isDisabled) OverlaySheet.Empty else OverlaySheet.Journal
+                }
+            )
             Spacer(modifier = Modifier.height(20.dp))
             ArcDeepDiveSection()
             Spacer(modifier = Modifier.height(20.dp))
@@ -60,9 +67,16 @@ internal fun PodcastScreen() {
             )
         }
 
-        if (showOverlay) {
-            JournalDayOverlay(onClose = { showOverlay = false })
+        when (activeSheet) {
+            OverlaySheet.Journal -> JournalDayOverlay(onClose = { activeSheet = null })
+            OverlaySheet.Empty -> EmptyDayOverlay(onClose = { activeSheet = null })
+            null -> Unit
         }
     }
+}
+
+private enum class OverlaySheet {
+    Journal,
+    Empty
 }
 

@@ -25,18 +25,28 @@ import com.example.design1.ui.bigSubtitleLeftStyle
 import com.example.design1.ui.smallSubtitleLeftStyle
 
 @Composable
-internal fun OverlayDateHeader() {
+internal fun OverlayDateHeader(showMoodIcon: Boolean = true) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        MoodIcon()
-        Spacer(modifier = Modifier.width(8.dp))
+        if (showMoodIcon) {
+            MoodIcon()
+            Spacer(modifier = Modifier.width(8.dp))
+        }
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Tuesday", color = Color(0xCCF2EBE9), style = bigSubtitleLeftStyle())
-            Text("3 November", color = Color(0xCCB6B0AF), style = smallSubtitleLeftStyle())
+            Text(
+                "Tuesday",
+                color = Color(0xFFF2EBE9).copy(alpha = 0.8f),
+                style = bigSubtitleLeftStyle()
+            )
+            Text(
+                "3 November",
+                color = Color(0xFFB6B0AF).copy(alpha = 0.8f),
+                style = smallSubtitleLeftStyle()
+            )
         }
     }
 }
