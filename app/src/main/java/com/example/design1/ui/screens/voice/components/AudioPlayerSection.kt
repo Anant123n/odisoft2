@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.design1.R
@@ -40,7 +41,7 @@ internal fun AudioPlayerSection(
             // Track Info Box
             Box(
                 modifier = Modifier
-                    .width(274.dp)
+                    .weight(1f)
                     .height(48.dp)
                     .clip(RoundedCornerShape(100.dp))
                     .background(Color(0x1AFFFFFF))
@@ -60,7 +61,9 @@ internal fun AudioPlayerSection(
                             fontSize = 12.sp,
                             lineHeight = 15.6.sp, // 130%
                             letterSpacing = 0.12.sp
-                        )
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         "00:00:00 - 03:23:11",
@@ -78,6 +81,7 @@ internal fun AudioPlayerSection(
             // Transcribing Badge
             Box(
                 modifier = Modifier
+                    .widthIn(min = 96.dp)
                     .height(48.dp)
                     .clip(RoundedCornerShape(100.dp))
                     .background(if (isTranscribing) Color(0xFFD96C4A) else Color(0x1AFFFFFF))
@@ -91,7 +95,8 @@ internal fun AudioPlayerSection(
                     style = captionSmallLeftStyle().copy(
                         fontWeight = FontWeight.Medium,
                         letterSpacing = 0.12.sp
-                    )
+                    ),
+                    maxLines = 1
                 )
             }
         }
