@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design1.R
 import com.example.design1.ui.EmptyDayOverlay
 import com.example.design1.ui.JournalDayOverlay
+import com.example.design1.ui.screens.voice.VoiceScreen
 import com.example.design1.ui.screens.podcast.cards.ArcDeepDiveSection
 import com.example.design1.ui.screens.podcast.cards.MainCardSection
 import com.example.design1.ui.screens.podcast.cards.WeekDayUi
@@ -35,6 +36,7 @@ internal fun PodcastScreen() {
     val mainScroll = rememberScrollState()
     val weekScroll = rememberScrollState()
     var activeSheet by remember { mutableStateOf<OverlaySheet?>(null) }
+    var activeVoiceVisualRes by remember { mutableStateOf(R.drawable.blur_grey) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -55,7 +57,16 @@ internal fun PodcastScreen() {
             Spacer(modifier = Modifier.height(20.dp))
             ArcDeepDiveSection()
             Spacer(modifier = Modifier.height(20.dp))
-            HistorySection()
+            HistorySection(
+                onCardClick = { cardIndex ->
+                    activeVoiceVisualRes = if (cardIndex == 2) {
+                        R.drawable.blur_orange
+                    } else {
+                        R.drawable.blur_grey
+                    }
+                    activeSheet = OverlaySheet.Voice
+                }
+            )
             Spacer(modifier = Modifier.height(12.dp))
             Image(
                 painter = painterResource(id = R.drawable.home_indicator),
@@ -70,6 +81,10 @@ internal fun PodcastScreen() {
         when (activeSheet) {
             OverlaySheet.Journal -> JournalDayOverlay(onClose = { activeSheet = null })
             OverlaySheet.Empty -> EmptyDayOverlay(onClose = { activeSheet = null })
+            OverlaySheet.Voice -> VoiceScreen(
+                onBack = { activeSheet = null },
+                visualRes = activeVoiceVisualRes
+            )
             null -> Unit
         }
     }
@@ -77,6 +92,6 @@ internal fun PodcastScreen() {
 
 private enum class OverlaySheet {
     Journal,
-    Empty
+    Empty,
+    Voice
 }
-

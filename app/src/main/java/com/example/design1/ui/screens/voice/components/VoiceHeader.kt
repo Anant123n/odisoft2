@@ -1,10 +1,8 @@
 package com.example.design1.ui.screens.voice.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,20 +52,13 @@ internal fun VoiceHeader(onBack: () -> Unit) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.back_button),
+                contentDescription = "Back",
                 modifier = Modifier
-                    .size(36.dp)
-                    .clip(CircleShape)
-                    .background(Color(0x1AFFFFFF))
-                    .clickable { onBack() },
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.back_button),
-                    contentDescription = "Back",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+                    .size(40.dp)
+                    .clickable { onBack() }
+            )
         }
     }
 }

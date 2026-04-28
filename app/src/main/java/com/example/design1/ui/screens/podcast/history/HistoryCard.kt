@@ -2,6 +2,7 @@ package com.example.design1.ui.screens.podcast.history
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,8 @@ internal fun HistoryCard(
     bgRes: Int,
     rightActionRes: Int,
     playActionRes: Int,
-    progressRatio: Float
+    progressRatio: Float,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -43,6 +45,7 @@ internal fun HistoryCard(
             .padding(horizontal = 6.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color(0xFF423C3A))
+            .clickable { onClick() }
     ) {
         Box(modifier = Modifier.fillMaxWidth().height(190.dp)) {
             Image(
