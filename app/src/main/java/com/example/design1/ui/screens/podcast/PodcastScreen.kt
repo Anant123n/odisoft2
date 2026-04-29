@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.design1.R
 import com.example.design1.ui.EmptyDayOverlay
 import com.example.design1.ui.JournalDayOverlay
@@ -30,6 +31,7 @@ import com.example.design1.ui.screens.podcast.cards.WeekDayUi
 import com.example.design1.ui.screens.podcast.header.HeaderSection
 import com.example.design1.ui.screens.podcast.header.HeroSection
 import com.example.design1.ui.screens.podcast.history.HistorySection
+import com.example.design1.ui.screens.podcast.settings.VoiceSettingsScreen
 
 @Composable
 internal fun PodcastScreen() {
@@ -45,7 +47,7 @@ internal fun PodcastScreen() {
                 .background(Color(0xFF171312))
                 .verticalScroll(mainScroll)
         ) {
-            HeaderSection()
+            HeaderSection(onSettingsClick = { activeSheet = OverlaySheet.Settings })
             HeroSection()
             Spacer(modifier = Modifier.height(16.dp))
             MainCardSection(
@@ -78,14 +80,21 @@ internal fun PodcastScreen() {
             )
         }
 
-        when (activeSheet) {
-            OverlaySheet.Journal -> JournalDayOverlay(onClose = { activeSheet = null })
-            OverlaySheet.Empty -> EmptyDayOverlay(onClose = { activeSheet = null })
-            OverlaySheet.Voice -> VoiceScreen(
-                onBack = { activeSheet = null },
-                visualRes = activeVoiceVisualRes
-            )
-            null -> Unit
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1f)
+        ) {
+            when (activeSheet) {
+                OverlaySheet.Journal -> JournalDayOverlay(onClose = { activeSheet = null })
+                OverlaySheet.Empty -> EmptyDayOverlay(onClose = { activeSheet = null })
+                OverlaySheet.Voice -> VoiceScreen(
+                    onBack = { activeSheet = null },
+                    visualRes = activeVoiceVisualRes
+                )
+                OverlaySheet.Settings -> VoiceSettingsScreen(onBack = { activeSheet = null })
+                null -> Unit
+            }
         }
     }
 }
@@ -93,5 +102,6 @@ internal fun PodcastScreen() {
 private enum class OverlaySheet {
     Journal,
     Empty,
-    Voice
+    Voice,
+    Settings
 }

@@ -9,15 +9,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
 import com.example.design1.R
 import com.example.design1.ui.captionSmallLeftStyle
 
@@ -26,6 +33,17 @@ internal fun AudioPlayerSection(
     isTranscribing: Boolean,
     onToggleTranscription: () -> Unit
 ) {
+    val playbackSpeeds = listOf("1x", "0.5x", "1.5x", "2x")
+    var playbackSpeedIndex by remember { mutableIntStateOf(0) }
+    val context = LocalContext.current
+    val svgImageLoader = remember(context) {
+        ImageLoader.Builder(context)
+            .components {
+                add(SvgDecoder.Factory())
+            }
+            .build()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -163,8 +181,9 @@ internal fun AudioPlayerSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Music Note Button
-            Image(
-                painter = painterResource(id = R.drawable.music_button),
+            AudioToolbarSvgIcon(
+                imageLoader = svgImageLoader,
+                assetPath = "file:///android_asset/audio_player/music_button.svg",
                 contentDescription = "Music",
                 modifier = Modifier.size(36.dp)
             )
@@ -175,33 +194,71 @@ internal fun AudioPlayerSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Rewind 30s
-                Image(
-                    painter = painterResource(id = R.drawable.ic_30_sec_prevoius),
-                    contentDescription = "Rewind 30s",
-                    modifier = Modifier.size(width = 40.dp, height = 51.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    AudioToolbarSvgIcon(
+                        imageLoader = svgImageLoader,
+                        assetPath = "file:///android_asset/audio_player/rewind_30.svg",
+                        contentDescription = "Rewind 30s",
+                        modifier = Modifier.size(35.dp)
+                    )
+                    Text(
+                        "30 sec",
+                        color = Color(0xFFB6B0AF),
+                        style = captionSmallLeftStyle().copy(fontSize = 12.sp)
+                    )
+                }
 
                 // Play Button
-                Image(
-                    painter = painterResource(id = R.drawable.resume_button),
+                AudioToolbarSvgIcon(
+                    imageLoader = svgImageLoader,
+                    assetPath = "file:///android_asset/audio_player/play_button.svg",
                     contentDescription = "Play",
                     modifier = Modifier.size(56.dp)
                 )
 
                 // Forward 30s
-                Image(
-                    painter = painterResource(id = R.drawable.ic_30_sec_forward_button),
-                    contentDescription = "Forward 30s",
-                    modifier = Modifier.size(width = 40.dp, height = 51.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    AudioToolbarSvgIcon(
+                        imageLoader = svgImageLoader,
+                        assetPath = "file:///android_asset/audio_player/forward_30.svg",
+                        contentDescription = "Forward 30s",
+                        modifier = Modifier.size(35.dp)
+                    )
+                    Text(
+                        "30 sec",
+                        color = Color(0xFFB6B0AF),
+                        style = captionSmallLeftStyle().copy(fontSize = 12.sp)
+                    )
+                }
             }
 
             // Playback Speed Button
-            Image(
-                painter = painterResource(id = R.drawable.playback_speed_button),
-                contentDescription = "Playback Speed",
-                modifier = Modifier.size(36.dp)
-            )
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(Color(0x1AFFFFFF))
+                    .clickable {
+                        playbackSpeedIndex = (playbackSpeedIndex + 1) % playbackSpeeds.size
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    playbackSpeeds[playbackSpeedIndex],
+                    color = Color(0xFFF2EBE9),
+                    style = captionSmallLeftStyle().copy(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 11.sp,
+                        lineHeight = 14.sp
+                    )
+                )
+            }
         }
 
         // Home Indicator
@@ -220,4 +277,19 @@ internal fun AudioPlayerSection(
             )
         }
     }
+}
+
+@Composable
+private fun AudioToolbarSvgIcon(
+    imageLoader: ImageLoader,
+    assetPath: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier
+) {
+    AsyncImage(
+        model = assetPath,
+        imageLoader = imageLoader,
+        contentDescription = contentDescription,
+        modifier = modifier
+    )
 }

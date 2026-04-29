@@ -66,7 +66,7 @@ internal fun ArcDeepDiveSection() {
                     modifier = Modifier
                         .size(106.dp)
                         .align(Alignment.BottomStart)
-                        .offset(x = (-17).dp, y = 4.dp)
+                        .offset(x = (-17).dp, y = (-6).dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
@@ -76,7 +76,7 @@ internal fun ArcDeepDiveSection() {
                     modifier = Modifier
                         .size(118.dp)
                         .align(Alignment.BottomEnd)
-                        .offset(x = 32.dp, y = 10.dp)
+                        .offset(x = 32.dp, y = (-8).dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
@@ -142,4 +142,3 @@ internal fun ArcDeepDiveSection() {
         Spacer(modifier = Modifier.height(43.dp))
     }
 }
-
