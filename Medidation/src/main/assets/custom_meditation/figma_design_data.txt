@@ -1,0 +1,66 @@
+Custom Meditation Figma reference
+File key: cc4nJJRo9tiWfjk5PTl94y
+Nodes:
+- 1:2940 (screen + duration header area)
+- 1:3066 (guided voice section)
+- 1:3076 (background sound section)
+
+Core colors
+- Screen background: #171312
+- Primary text: #F2EBE9 / #F2EEF8
+- Secondary text: #A29C9A
+- Dark card fill: #221D1B
+- Chip fill: #423C3A
+- Whale selected card fill: #293D3B
+- Whale selected border: #A7CFCB
+- CTA fill: #FE6847
+- CTA text: #642D20
+- Divider / subtle stroke: rgba(255,255,255,0.1)
+
+Typography
+- Big subtitle: Work Sans Medium, 17px, line-height 130%, letter-spacing 1%
+- Small subtitle: Work Sans Medium, 14px, line-height 135%, letter-spacing 1%
+- Body medium: Work Sans Regular, 16px, line-height 160%, letter-spacing 1%
+- Caption small: IBM Plex Sans Regular, 12px, line-height 130%, letter-spacing 1%
+- Duration number: Plus Jakarta Sans Bold, 36px, line-height 120%
+
+Key layout values
+- Screen width: 393
+- Main horizontal padding: 16
+- Main section top/bottom padding: 32
+- Section gaps: 20 / 24 / 32
+- Duration chips height: 40
+- Persona card width: 92
+- Persona image height: 92
+- Sound card corner radius: 16
+
+Downloaded asset folder
+- custom_meditation/
+
+Downloaded SVG icons
+- status_right_icons.svg
+- status_camera_cutout.svg
+- header_edit.svg
+- header_close.svg
+- timer_icon.svg
+- advanced_down.svg
+- white_noise_glow.svg
+
+Downloaded image assets
+- meditated_before_avatar.png
+- voice_mira-5c7623.png
+- voice_amara-3e518f.png
+- voice_elara-79d159.png
+- voice_elias-2b978c.png
+- voice_landon-16cef2.png
+- voice_rowan-4f0b88.png
+- sound_music-325757.png
+- sound_nature_bg1.png
+- sound_nature_bg2.png
+- sound_silence.png
+- sound_ocean.png
+- sound_fire-1c79c1.png
+- sound_whale-105f91.png
+- sound_rain.png
+- sound_bowl.png
+- sound_chimes-5ae107.png

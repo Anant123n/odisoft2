@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Design1"
 include(":app")
+include(":Medidation")

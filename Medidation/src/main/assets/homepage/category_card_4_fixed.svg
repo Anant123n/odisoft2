@@ -1,0 +1,15 @@
+<svg width="117" height="166" viewBox="0 0 117 166" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="117" height="166" rx="12" fill="#F6F3F2"/>
+  <text
+    x="58.5"
+    y="105"
+    text-anchor="middle"
+    fill="#E7DCD8"
+    font-family="Work Sans, Arial, sans-serif"
+    font-size="16"
+    font-weight="600"
+    letter-spacing="0.01em">
+    <tspan x="58.5" dy="0">Created by</tspan>
+    <tspan x="58.5" dy="28">you</tspan>
+  </text>
+</svg>
